@@ -35,16 +35,19 @@ class _DicePageState extends State<DicePage> {
             print(choice);
             if(balance<bid){
               balance=0;
+              msg='You have no coins left!';
+              msg1='You\'ve lost the game';
+              abc(context);
             }
             else
             {
               balance=balance-bid;
+              msg='You lost $bid points!';
+              msg1='Oops! Sour luck';
+              abc(context);
             }
-            msg='You lost $bid points!';
-            msg1='Oops! Sour luck';
             print('bid=$bid');
             print('balance= $balance');
-            abc(context);
           }
         }
     );
@@ -78,7 +81,9 @@ class _DicePageState extends State<DicePage> {
                     padding: const EdgeInsets.all(16.0),
                     child: FlatButton(
                         onPressed: (){
-                          mydice();
+                          if(balance>0 || balance>bid){
+                            mydice();
+                          }
                         },
                         child: Image.asset('images/dice$ld.png')
                     ),
@@ -89,7 +94,9 @@ class _DicePageState extends State<DicePage> {
                     padding: const EdgeInsets.all(16.0),
                     child: FlatButton(
                         onPressed: (){
-                          mydice();
+                          if(balance>0 || balance>bid){
+                            mydice();
+                          }
                         },
                         child: Image.asset('images/dice$rd.png')
                     ),

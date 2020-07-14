@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'dice_page.dart';
 int bid=1000;
 String guess= 'none';
+String t1,t2;
 double balance=10000;
 int choice;
 class FirstPage extends StatefulWidget {
@@ -177,14 +178,8 @@ class _FirstPageState extends State<FirstPage> {
           ),
           GestureDetector(
             onTap: (){
-              if(check()==3){
-                print('No option selected');
-              }
-              else if(check()==1){
-                print('Low balance');
-              }
-              else if(check()==2){
-                print('lost game');
+              if(check()==3||check()==1||check()==2){
+                print('No option selected or low balance or lost game');
               }
               else{
                 navigate(context);
@@ -204,54 +199,35 @@ class _FirstPageState extends State<FirstPage> {
   }
   int check(){
     if(guess=='none'){
-      noOption(context);
+      t1='Please select an option to bid!';
+      t2='Choose from the given options';
+      invalidBid(context);
       return 3;
     }
     if(balance<=0){
-      lost(context);
+      t1='You have no money!';
+      t2='You lost the game';
+      invalidBid(context);
       return 2;
     }
     else if(bid>balance) {
+      t1='No enough balance';
+      t2='Make lower bid';
       invalidBid(context);
       return 1;
     }
-    else{
+    else
       return 0;
-    }
   }
   void invalidBid(BuildContext context){
     var alert= AlertDialog(
-      title:Text('No enough balance'),
-      content: Text('Make lower bid'),
+      title:Text(t1),
+      content: Text(t2),
     );
     showDialog(context: context,
         builder: (BuildContext context)
         {
           return alert;
-        }
-    );
-  }
-  void lost(BuildContext context){
-    var alert1= AlertDialog(
-      title:Text('You have no money!'),
-      content: Text('You lost the game'),
-    );
-    showDialog(context: context,
-        builder: (BuildContext context)
-        {
-          return alert1;
-        }
-    );
-  }
-  void noOption(BuildContext context){
-    var alert2= AlertDialog(
-      title:Text('Please select an option to bid!'),
-      content: Text('Choose from the given options'),
-    );
-    showDialog(context: context,
-        builder: (BuildContext context)
-        {
-          return alert2;
         }
     );
   }
