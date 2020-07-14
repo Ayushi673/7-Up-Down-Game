@@ -2,11 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'first_page.dart';
 import 'dart:math';
+
+String msg,msg1;
 class DicePage extends StatefulWidget {
   @override
   _DicePageState createState() => _DicePageState();
 }
-
 class _DicePageState extends State<DicePage> {
   int ld= 1;
   int rd= 1;
@@ -17,29 +18,13 @@ class _DicePageState extends State<DicePage> {
           rd= Random().nextInt(6)+1;
           var sum =ld+rd;
           print('Button pressed, sum=$sum');
-          if(sum<7 && choice<7)
+          if((sum<7 && choice<7)||(sum==7 && choice==7)||(sum>7 && choice>7))
           {
             print(sum);
             print(choice);
             balance=balance+bid;
-            print('bid=$bid');
-            print('balance= $balance');
-            abc(context);
-          }
-          else if(sum==7 && choice==7)
-          {
-            print(sum);
-            print(choice);
-            balance=balance+bid;
-            print('bid=$bid');
-            print('balance= $balance');
-            abc(context);
-          }
-          else if(sum>7 && choice>7)
-          {
-            print(sum);
-            print(choice);
-            balance=balance+bid;
+            msg='You won $bid points!';
+            msg1='Correctly guessed';
             print('bid=$bid');
             print('balance= $balance');
             abc(context);
@@ -48,37 +33,32 @@ class _DicePageState extends State<DicePage> {
           {
             print(sum);
             print(choice);
-            balance=balance-bid;
+            if(balance<bid){
+              balance=0;
+            }
+            else
+            {
+              balance=balance-bid;
+            }
+            msg='You lost $bid points!';
+            msg1='Oops! Sour luck';
             print('bid=$bid');
             print('balance= $balance');
-            abcd(context);
+            abc(context);
           }
         }
     );
   }
   void abc(BuildContext context) {
     var alertDialog = AlertDialog(
-        title: Text("You won $bid points!"),
-        content: Text("Correctly guessed")
+        title: Text(msg),
+        content: Text(msg1),
     );
     showDialog(
         context: context,
         builder: (BuildContext context)
         {
           return alertDialog;
-        }
-    );
-  }
-  void abcd(BuildContext context) {
-    var alertDialog1 = AlertDialog(
-        title: Text("You lost $bid points!"),
-        content: Text("Oops! Sour luck")
-    );
-    showDialog(
-        context: context,
-        builder: (BuildContext context)
-        {
-          return alertDialog1;
         }
     );
   }
